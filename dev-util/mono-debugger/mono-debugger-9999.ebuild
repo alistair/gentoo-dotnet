@@ -27,8 +27,6 @@ DEPEND="${RDEPEND}
 src_prepare() {
 	go-mono_src_prepare
 
-	epatch "${FILESDIR}/${PN}-2.10-glib2.32.patch"
-
 	# Allow compilation against system libbfd, bnc#662581
 	epatch "${FILESDIR}/${PN}-2.8-system-bfd.patch"
 	eautoreconf
