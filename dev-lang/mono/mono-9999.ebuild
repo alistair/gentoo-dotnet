@@ -58,6 +58,10 @@ pkg_setup() {
 }
 
 src_prepare() {
+
+	#fix automake upstream crap see commit a14e9e5650d978bf21a57470d2a3edeb164407ea
+	cat "${S}/mono/mini/Makefile.am.in" > "${S}/mono/mini/Makefile.am" || die
+
 	go-mono_src_prepare
 
 	# we need to sed in the paxctl -mr in the runtime/mono-wrapper.in so it don't
@@ -86,9 +90,7 @@ src_configure() {
 	# and, otherwise, problems like bug #340641 appear.
 	#
 	# sgen fails on ppc, bug #359515
-	
-	cat "${S}/mono/mini/Makefile.am.in" > "${S}/mono/mini/Makefile.am" || die
-
+		
 	local myconf=""
 	use ppc && myconf="${myconf} --with-sgen=no"
 	go-mono_src_configure \
