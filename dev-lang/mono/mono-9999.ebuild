@@ -86,6 +86,8 @@ src_configure() {
 	# and, otherwise, problems like bug #340641 appear.
 	#
 	# sgen fails on ppc, bug #359515
+	
+	cat "${S}/mono/mini/Makefile.am.in" > "${S}/mono/mini/Makefile.am" || die
 
 	local myconf=""
 	use ppc && myconf="${myconf} --with-sgen=no"
