@@ -1,0 +1,10 @@
+# ChangeLog for dev-util/monodevelop-debugger-gdb
+# Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+*monodevelop-debugger-gdb-3.1.1 (31 Dec 2012)
+
+  31 Dec 2012; Alistair Bush <ali_bush@gentoo.org>
+  +monodevelop-debugger-gdb-3.1.1.ebuild:
+  Version Bump.
+
