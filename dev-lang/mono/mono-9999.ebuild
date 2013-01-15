@@ -60,7 +60,9 @@ pkg_setup() {
 src_prepare() {
 
 	#fix automake upstream crap see commit a14e9e5650d978bf21a57470d2a3edeb164407ea
+	# and e37a3a7494d89c139fbae363b56179c53eb8894a
 	cat "${S}/mono/mini/Makefile.am.in" > "${S}/mono/mini/Makefile.am" || die
+	cat "${S}/mono/metadata/Makefile.am.in" > "${S}/mono/metadata/Makefile.am" || die
 
 	go-mono_src_prepare
 
