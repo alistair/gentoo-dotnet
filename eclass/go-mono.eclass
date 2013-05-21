@@ -33,13 +33,17 @@ elif [[ "${PV}" == "9999" ]]
 then
 	GO_MONO_P=${P}
 	EGIT_REPO_URI="https://github.com/mono/${GIT_PN}.git"
+	EGIT_HAS_SUBMODULES="true"
 	SRC_URI=""
 	inherit autotools git-2
 elif [[ "${PV%.9999}" != "${PV}" ]]
 then
 	GO_MONO_P=${P}
 	EGIT_REPO_URI="https://github.com/mono/${GIT_PN}.git"
-	EGIT_BRANCH="mono-$(get_version_component_range 1)-$(get_version_component_range 2)${GO_MONO_SUB_BRANCH}"
+	EGIT_HAS_SUBMODULES="true"
+	if [[ -z "${EGIT_COMMIT}" ]]; then
+		EGIT_BRANCH="mono-${PV%.9999}${GO_MONO_SUB_BRANCH}"
+	fi
 	SRC_URI=""
 	inherit autotools git-2
 else
