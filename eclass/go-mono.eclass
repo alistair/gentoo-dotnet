@@ -64,7 +64,7 @@ fi
 
 if ! has "${CATEGORY}/${PN}" "${NO_MONO_DEPEND[@]}"
 then
-	RDEPEND="=dev-lang/mono-${GO_MONO_REL_PV}*"
+	RDEPEND=">=dev-lang/mono-${GO_MONO_REL_PV}"
 	DEPEND="${RDEPEND}"
 fi
 
