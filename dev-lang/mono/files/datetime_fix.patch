@@ -1,0 +1,57 @@
+diff --git a/mcs/class/System.Core/System/TimeZoneInfo.cs b/mcs/class/System.Core/System/TimeZoneInfo.cs
+index 1f580d7..5663e4b 100644
+--- a/mcs/class/System.Core/System/TimeZoneInfo.cs
++++ b/mcs/class/System.Core/System/TimeZoneInfo.cs
+@@ -1,3 +1,4 @@
++
+ /*
+  * System.TimeZoneInfo
+  *
+@@ -285,10 +286,17 @@ namespace System
+ 
+ 			if (this == TimeZoneInfo.Utc)
+ 				return DateTime.SpecifyKind (dateTime, DateTimeKind.Utc);
+-
++			
+ 			//FIXME: do not rely on DateTime implementation !
+-			if (this == TimeZoneInfo.Local)
++			if (this == TimeZoneInfo.Local) 
++			{
++#if NET_4_0
++				return dateTime.ToLocalTime ();
++#else
+ 				return DateTime.SpecifyKind (dateTime.ToLocalTime (), DateTimeKind.Unspecified);
++#endif
++			}
++
+ 
+ 			AdjustmentRule rule = GetApplicableRule (dateTime);
+ 		
+diff --git a/mcs/class/System.Core/Test/System/TimeZoneInfoTest.cs b/mcs/class/System.Core/Test/System/TimeZoneInfoTest.cs
+index 609c6d2..89b4ec1 100644
+--- a/mcs/class/System.Core/Test/System/TimeZoneInfoTest.cs
++++ b/mcs/class/System.Core/Test/System/TimeZoneInfoTest.cs
+@@ -387,6 +387,23 @@ namespace MonoTests.System
+ 		
+ 			}
+ 
++
++			[Test]
++			public void ConvertFromToLocal ()
++			{
++				DateTime utc = DateTime.UtcNow;
++				Assert.AreEqual(utc.Kind, DateTimeKind.Utc);
++				DateTime converted = TimeZoneInfo.ConvertTimeFromUtc(utc, TimeZoneInfo.Local);
++			#if NET_4_0
++				Assert.AreEqual(DateTimeKind.Local, converted.Kind);
++			#else
++				Assert.AreEqual(DateTimeKind.Unspecified, converted.Kind);
++			#endif
++				DateTime back = TimeZoneInfo.ConvertTimeToUtc(converted, TimeZoneInfo.Local);
++				Assert.AreEqual(back.Kind, DateTimeKind.Utc);
++				Assert.AreEqual(utc, back);
++			}
++
+ 			[Test]
+ 			public void ConvertToTimeZone ()
+ 			{
